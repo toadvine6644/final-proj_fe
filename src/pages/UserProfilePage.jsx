@@ -10,13 +10,15 @@ import {
   FaSave, 
   FaLock 
 } from 'react-icons/fa';
+import { useUserStore } from '../stores/useUserStore';
 
 const UserProfilePage = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const [isEditing, setIsEditing] = useState(false);
-  const [user, setUser] = useState({
-    name: 'Nguyễn Văn A',
-    email: 'nguyenvana@example.com',
+  const {user} = useUserStore();
+  const [userState, setUser] = useState({
+    name: user?.name || '',
+    email: user?.email || '',
     phone: '0123456789',
     address: 'Hà Nội, Việt Nam'
   });
@@ -92,16 +94,16 @@ const UserProfilePage = () => {
                   {isEditing ? (
                     <input
                       type="text"
-                      value={user[item.field]}
+                      value={userState[item.field]}
                       onChange={(e) => setUser({
-                        ...user,
+                        ...userState,
                         [item.field]: e.target.value
                       })}
                       className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
                     />
                   ) : (
                     <dd className="text-base font-medium text-white">
-                      {user[item.field]}
+                      {userState[item.field]}
                     </dd>
                   )}
                 </div>
